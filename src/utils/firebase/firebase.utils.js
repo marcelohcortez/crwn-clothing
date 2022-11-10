@@ -1,18 +1,17 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyA68X48TVyb7BKymuKO05Vyl-H4QIssDEw",
-    authDomain: "crwn-clothing-db-ab00c.firebaseapp.com",
-    projectId: "crwn-clothing-db-ab00c",
-    storageBucket: "crwn-clothing-db-ab00c.appspot.com",
-    messagingSenderId: "340072546064",
-    appId: "1:340072546064:web:7ebbadc65332e8a56a6f95"
+  apiKey: "AIzaSyA68X48TVyb7BKymuKO05Vyl-H4QIssDEw",
+  authDomain: "crwn-clothing-db-ab00c.firebaseapp.com",
+  projectId: "crwn-clothing-db-ab00c",
+  storageBucket: "crwn-clothing-db-ab00c.appspot.com",
+  messagingSenderId: "340072546064",
+  appId: "1:340072546064:web:7ebbadc65332e8a56a6f95"
 };
-  
-// eslint-disable-next-line no-unused-vars
-const firebaseApp = initializeApp(firebaseConfig);
+
+const app = initializeApp(firebaseConfig);
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -21,7 +20,7 @@ googleProvider.setCustomParameters({
 });
 
 export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
+export const signInWithGooglePopup = () => { signInWithPopup(auth, googleProvider) };
 export const db = getFirestore();
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
@@ -62,4 +61,10 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
     return await signInWithEmailAndPassword(auth, email, password);
 };
 
-export const signOutUser = async () => await signOut(auth);
+export const signOutUser = async () => { 
+    await signOut(auth);
+}
+
+export const onAuthStateChangedListener = (callback) => {
+    onAuthStateChanged(auth, callback);
+}
